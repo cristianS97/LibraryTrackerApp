@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    // dagger hilt
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -53,4 +56,12 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    // Dagger hilt
+    implementation(libs.hilt)
+    ksp(libs.hilt.compiler)
+    // Librería para live data
+    implementation(libs.androidx.compose.runtime.livedata)
+    // Consumo de api
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
