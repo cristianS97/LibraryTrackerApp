@@ -1,9 +1,7 @@
 # LibraryTrackerApp
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white)](https://kotlinlang.org/)
-
 [![Jetpack Compose](https://img.shields.io/badge/Jetpack_Compose-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white)](https://developer.android.com/jetpack/compose)
-
 [![Retrofit](https://img.shields.io/badge/Retrofit-005571?style=for-the-badge&logo=square&logoColor=white)](https://square.github.io/retrofit/)
 
 Cliente móvil desarrollado para la **Gestión de Biblioteca Personal**. Esta aplicación permite catalogar libros y gestionar usuarios mediante autenticación JWT, utilizando una arquitectura moderna, reactiva y testeable.
