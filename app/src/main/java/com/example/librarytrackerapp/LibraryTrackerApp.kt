@@ -1,7 +1,7 @@
-package com.example.librarytrackerapp.core
+package com.example.librarytrackerapp
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class JetpackComposeApp : Application() {}
+class LibraryTrackerApp : Application() {}

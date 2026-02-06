@@ -1,0 +1,17 @@
+package com.example.librarytrackerapp.data.network.model
+
+import com.google.gson.annotations.SerializedName
+
+data class BookDto(
+    @SerializedName("id")
+    val id: Int,
+
+    @SerializedName("title")
+    val title: String,
+
+    @SerializedName("author")
+    val author: String,
+
+    @SerializedName("description")
+    val description: String
+)
