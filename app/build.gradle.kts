@@ -4,6 +4,8 @@ plugins {
     // dagger hilt
     alias(libs.plugins.hilt)
     alias(libs.plugins.ksp)
+    // Navegación
+    alias(libs.plugins.jetbrainsKotlinSerialization)
 }
 
 android {
@@ -64,4 +66,12 @@ dependencies {
     // Consumo de api
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    // Navegación
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.androidx.hilt.navigation.compose)
+    // Coil
+    implementation(libs.coil.compose)
+    // Iconos
+    implementation(libs.androidx.compose.material.icons.extended)
 }
