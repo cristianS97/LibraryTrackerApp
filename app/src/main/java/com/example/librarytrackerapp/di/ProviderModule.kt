@@ -1,6 +1,9 @@
 package com.example.librarytrackerapp.di
 
 import com.example.librarytrackerapp.data.network.client.BookTrackerClient
+import com.example.librarytrackerapp.data.network.service.BookTrackerService
+import com.example.librarytrackerapp.data.repository.BookTrackerRepositoryImpl
+import com.example.librarytrackerapp.domain.repository.BookTrackerRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +26,13 @@ class ProviderModule {
 
     @Singleton
     @Provides
-    fun providesbookTrackerClient(retrofit: Retrofit) : BookTrackerClient {
+    fun providesBookTrackerClient(retrofit: Retrofit) : BookTrackerClient {
         return retrofit.create(BookTrackerClient::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun providesBookTrackerRepository(bookTrackerService: BookTrackerService): BookTrackerRepository {
+        return BookTrackerRepositoryImpl(bookTrackerService)
     }
 }

@@ -8,7 +8,8 @@ fun BookDto.toDomain() : Book {
         id = this.id,
         title = this.title,
         author = this.author,
-        description = this.description
+        description = this.description,
+        image = this.image
     )
 }
 
@@ -17,6 +18,7 @@ fun Book.toDto(): BookDto {
         id = this.id,
         title = this.title,
         author = this.author,
-        description = this.description
+        description = this.description,
+        image = this.image
     )
 }
