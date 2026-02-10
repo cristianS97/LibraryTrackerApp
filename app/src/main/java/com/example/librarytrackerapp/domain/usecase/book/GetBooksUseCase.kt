@@ -1,4 +1,4 @@
-package com.example.librarytrackerapp.domain.usecase
+package com.example.librarytrackerapp.domain.usecase.book
 
 import com.example.librarytrackerapp.domain.model.Book
 import com.example.librarytrackerapp.domain.repository.BookTrackerRepository

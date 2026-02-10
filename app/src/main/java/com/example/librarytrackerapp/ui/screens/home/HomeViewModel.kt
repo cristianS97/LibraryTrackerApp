@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarytrackerapp.domain.model.Book
-import com.example.librarytrackerapp.domain.usecase.GetBooksUseCase
+import com.example.librarytrackerapp.domain.usecase.book.GetBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

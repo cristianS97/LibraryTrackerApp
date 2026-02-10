@@ -16,19 +16,20 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.librarytrackerapp.ui.screens.login.LoginViewModel
 
 @Composable
-fun LoginScreenLoginPassword() {
-    var showPassword by remember { mutableStateOf(false) }
+fun LoginScreenLoginPassword(loginViewModel: LoginViewModel) {
+    val showPassword by loginViewModel.showPassword.observeAsState(initial = false)
+    val password by loginViewModel.password.observeAsState(initial = "")
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -37,22 +38,28 @@ fun LoginScreenLoginPassword() {
         Text("Forgot?", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
     }
     OutlinedTextField(
-        value = "",
-        onValueChange = {},
+        value = password,
+        onValueChange = { loginViewModel.changePassword(it) },
         leadingIcon = {
             Icon(
                 Icons.Default.Lock,
-                contentDescription = null,
-                modifier = Modifier.clickable(
-                    enabled = true,
-                    onClick = { showPassword = !showPassword })
+                contentDescription = null
             )
         },
         placeholder = {
             Text("••••••••")
         },
         trailingIcon = {
-            Icon(Icons.Default.Visibility, contentDescription = null)
+            Icon(
+                Icons.Default.Visibility,
+                contentDescription = null,
+                modifier = Modifier.clickable(
+                    enabled = true,
+                    onClick = {
+                        loginViewModel.changePasswordVisibility()
+                    }
+                )
+            )
         },
         visualTransformation = if (showPassword) VisualTransformation.None else PasswordVisualTransformation(),
         keyboardOptions = KeyboardOptions(

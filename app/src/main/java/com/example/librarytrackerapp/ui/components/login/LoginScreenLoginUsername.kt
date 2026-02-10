@@ -11,26 +11,30 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.librarytrackerapp.ui.screens.login.LoginViewModel
 
 @Composable
-fun LoginScreenLoginEmail() {
+fun LoginScreenLoginUsername(loginViewModel: LoginViewModel) {
+    val username by loginViewModel.username.observeAsState(initial = "")
     Text(
-        "Email Address",
+        "Username",
         color = MaterialTheme.colorScheme.onSurfaceVariant,
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth(),
         fontSize = 16.sp
     )
     OutlinedTextField(
-        value = "",
-        onValueChange = {},
+        value = username,
+        onValueChange = { loginViewModel.changeUsername(it) },
         placeholder = {
-            Text("name@example.com")
+            Text("myusername")
         },
         leadingIcon = {
             Icon(Icons.Default.Email, contentDescription = null)

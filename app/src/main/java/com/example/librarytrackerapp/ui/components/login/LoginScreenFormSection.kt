@@ -12,16 +12,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.librarytrackerapp.ui.screens.login.LoginViewModel
 
 @Composable
-fun LoginScreenFormSection() {
-    var isLogin by remember { mutableStateOf(true) }
+fun LoginScreenFormSection(loginViewModel: LoginViewModel) {
+    val isLogin by loginViewModel.isLogin.observeAsState(initial = true)
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -34,7 +34,7 @@ fun LoginScreenFormSection() {
             isSelected = isLogin,
             modifier = Modifier.weight(1f),
             onClick = {
-                isLogin = true
+                loginViewModel.changeSection()
             }
         )
         LoginScreenSegmentItem(
@@ -42,7 +42,7 @@ fun LoginScreenFormSection() {
             isSelected = !isLogin,
             modifier = Modifier.weight(1f),
             onClick = {
-                isLogin = false
+                loginViewModel.changeSection()
             }
         )
     }
@@ -52,16 +52,17 @@ fun LoginScreenFormSection() {
     ) { targetIsLogin ->
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             if (targetIsLogin) {
-                LoginScreenLoginEmail()
-                LoginScreenLoginPassword()
+                LoginScreenLoginUsername(loginViewModel = loginViewModel)
+                LoginScreenLoginPassword(loginViewModel = loginViewModel)
             } else {
-                LoginScreenLoginEmail()
-                LoginScreenLoginPassword()
-                LoginScreenLoginPassword()
+                LoginScreenLoginUsername(loginViewModel = loginViewModel)
+                LoginScreenLoginPassword(loginViewModel = loginViewModel)
+                LoginScreenLoginPassword(loginViewModel = loginViewModel)
             }
 
             Spacer(Modifier.height(8.dp))
             LoginScreenButtonLogin(
+                loginViewModel = loginViewModel,
                 text = if (targetIsLogin) "Sign In" else "Create Account"
             )
         }
