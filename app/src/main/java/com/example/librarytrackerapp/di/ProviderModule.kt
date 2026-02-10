@@ -1,9 +1,10 @@
 package com.example.librarytrackerapp.di
 
-import com.example.librarytrackerapp.data.network.client.BookTrackerClient
-import com.example.librarytrackerapp.data.network.service.BookTrackerService
+import com.example.librarytrackerapp.data.network.book.BookTrackerClient
+import com.example.librarytrackerapp.data.network.book.BookTrackerService
 import com.example.librarytrackerapp.data.repository.BookTrackerRepositoryImpl
 import com.example.librarytrackerapp.domain.repository.BookTrackerRepository
+import com.example.librarytrackerapp.util.NetworkConstants
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,7 @@ class ProviderModule {
     @Provides
     fun providesRetrofit() : Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:8000/")
+            .baseUrl(NetworkConstants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

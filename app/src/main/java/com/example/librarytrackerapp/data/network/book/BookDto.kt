@@ -1,4 +1,4 @@
-package com.example.librarytrackerapp.data.network.model
+package com.example.librarytrackerapp.data.network.book
 
 import com.google.gson.annotations.SerializedName
 

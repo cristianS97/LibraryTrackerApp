@@ -1,6 +1,5 @@
-package com.example.librarytrackerapp.data.network.client
+package com.example.librarytrackerapp.data.network.book
 
-import com.example.librarytrackerapp.data.network.model.BookDto
 import retrofit2.Response
 import retrofit2.http.GET
 

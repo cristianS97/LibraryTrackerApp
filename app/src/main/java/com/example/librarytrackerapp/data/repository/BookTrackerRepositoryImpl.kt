@@ -1,7 +1,7 @@
 package com.example.librarytrackerapp.data.repository
 
 import com.example.librarytrackerapp.data.mapper.toDomain
-import com.example.librarytrackerapp.data.network.service.BookTrackerService
+import com.example.librarytrackerapp.data.network.book.BookTrackerService
 import com.example.librarytrackerapp.domain.model.Book
 import com.example.librarytrackerapp.domain.repository.BookTrackerRepository
 import javax.inject.Inject

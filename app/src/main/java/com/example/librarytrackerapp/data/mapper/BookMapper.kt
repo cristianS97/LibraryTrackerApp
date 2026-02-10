@@ -1,9 +1,8 @@
 package com.example.librarytrackerapp.data.mapper
 
 import com.example.librarytrackerapp.domain.model.Book
-import com.example.librarytrackerapp.data.network.model.BookDto
-
-const val BASE_URL = "http://10.0.2.2:8000"
+import com.example.librarytrackerapp.data.network.book.BookDto
+import com.example.librarytrackerapp.util.NetworkConstants
 
 fun BookDto.toDomain() : Book {
     return Book(
@@ -11,7 +10,7 @@ fun BookDto.toDomain() : Book {
         title = this.title,
         author = this.author,
         description = this.description,
-        image = "$BASE_URL${this.image}"
+        image = "${NetworkConstants.BASE_URL}${this.image}"
     )
 }
 
@@ -21,6 +20,6 @@ fun Book.toDto(): BookDto {
         title = this.title,
         author = this.author,
         description = this.description,
-        image = this.image.replace(BASE_URL, "")
+        image = this.image.replace(NetworkConstants.BASE_URL, "")
     )
 }
