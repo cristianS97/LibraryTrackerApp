@@ -21,3 +21,5 @@ val AzureSoft = Color(0xFF60A5FA)     // Una variante más clara para contrastes
 // Colores de Texto
 val TextWhite = Color(0xFFF8FAFC)     // Títulos y texto prominente
 val TextGrey = Color(0xFF94A3B8)      // Autor y textos secundarios
+
+val ErrorRed = Color(0xFFFB7185)     // Cierre de sesión y errores

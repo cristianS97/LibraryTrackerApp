@@ -18,6 +18,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -25,18 +26,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.librarytrackerapp.ui.components.home.clases.navigationItem
+import com.example.librarytrackerapp.ui.screens.home.HomeViewModel
 
 @Composable
 fun HomeScreenBottomBar(
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    viewModel: HomeViewModel
 ) {
-    val navigationItems: List<navigationItem> = listOf(
+    val isLoggedIn by viewModel.isLoggedIn.observeAsState(initial = false)
+    val navigationItems: MutableList<navigationItem> = mutableListOf(
         navigationItem(menu = "Library", selectedIcon = Icons.Filled.Book, unselectedIcon = Icons.Outlined.Book, onClick = {}),
         navigationItem(menu = "Reading", selectedIcon = Icons.Filled.MenuBook, unselectedIcon = Icons.Outlined.MenuBook, onClick = {}),
-        navigationItem(menu = "Wishlist", selectedIcon = Icons.Filled.Bookmark, unselectedIcon = Icons.Outlined.Bookmark, onClick = {}),
-        navigationItem(menu = "Profile", selectedIcon = Icons.Filled.Person, unselectedIcon = Icons.Outlined.Person, onClick = { navigateToLogin() })
+        navigationItem(menu = "Wishlist", selectedIcon = Icons.Filled.Bookmark, unselectedIcon = Icons.Outlined.Bookmark, onClick = {})
     )
     var selectedMenu by remember { mutableStateOf(navigationItems[0].menu) }
+
+    if(!isLoggedIn) {
+        navigationItems.add(navigationItem(menu = "Profile", selectedIcon = Icons.Filled.Person, unselectedIcon = Icons.Outlined.Person, onClick = { navigateToLogin() }))
+    }
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.9f),

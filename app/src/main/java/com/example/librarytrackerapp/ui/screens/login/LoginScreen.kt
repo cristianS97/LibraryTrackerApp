@@ -9,7 +9,14 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -26,9 +33,32 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
+
+    // Referencias a los estados del ViewModel
+    val loginSuccess by loginViewModel.loginSuccess.observeAsState(false)
+    val errorMessage by loginViewModel.errorMessage.observeAsState()
+
+    // Estado para controlar el Snackbar
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            snackbarHostState.showSnackbar(message = it, duration = SnackbarDuration.Short)
+            loginViewModel.resetErrorMessage()
+        }
+    }
+
+    LaunchedEffect(loginSuccess) {
+        if (loginSuccess) {
+            navigateToHome()
+            loginViewModel.onNavigationDone()
+        }
+    }
+
     Scaffold(
         topBar = { LoginScreenTopBar(navigateToHome = navigateToHome) },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -49,4 +79,3 @@ fun LoginScreen(
         }
     }
 }
-

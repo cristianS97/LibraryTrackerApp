@@ -31,7 +31,10 @@ private val DarkColorScheme = darkColorScheme(
     onSurfaceVariant = TextGrey,
 
     // Color de la barra de búsqueda (generalmente un tono más oscuro que la card)
-    surfaceVariant = Color(0xFF172033)
+    surfaceVariant = Color(0xFF172033),
+
+    error = ErrorRed,
+    onError = Color.White
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -65,7 +68,10 @@ private val LightColorScheme = lightColorScheme(
     onSurfaceVariant = TextGrey,
 
     // Color de la barra de búsqueda (generalmente un tono más oscuro que la card)
-    surfaceVariant = Color(0xFF172033)
+    surfaceVariant = Color(0xFF172033),
+
+    error = ErrorRed,
+    onError = Color.White
 )
 
 @Composable

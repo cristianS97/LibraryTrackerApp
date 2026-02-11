@@ -26,6 +26,12 @@ class LoginViewModel @Inject constructor(
     private val _showPassword = MutableLiveData<Boolean>()
     val showPassword : LiveData<Boolean> = _showPassword
 
+    private val _loginSuccess = MutableLiveData<Boolean>(false)
+    val loginSuccess: LiveData<Boolean> = _loginSuccess
+
+    private val _errorMessage = MutableLiveData<String?>(null)
+    val errorMessage: LiveData<String?> = _errorMessage
+
     init {
         _isLogin.value = true
     }
@@ -55,13 +61,34 @@ class LoginViewModel @Inject constructor(
     }
 
     fun doLogin() {
-        viewModelScope.launch {
-            val token = doLoginUseCase(_username.value ?: "", _password.value ?: "")
-            if(token?.accessToken?.isNotEmpty() == true) {
-                Log.i("Mi token", token.accessToken)
-            } else {
-                Log.i("Mi token", "No se ha realizado el login")
+        val currentUsername = _username.value ?: ""
+        val currentPassword = _password.value ?: ""
+
+        if (currentUsername.isEmpty() || currentPassword.isEmpty()) {
+            _errorMessage.value = "Por favor, completa todos los campos"
+        } else {
+            viewModelScope.launch {
+                try {
+                    val token = doLoginUseCase(_username.value ?: "", _password.value ?: "")
+                    if (token?.accessToken?.isNotEmpty() == true) {
+                        Log.i("Contraseña","Correcta")
+                        _loginSuccess.value = true
+                    } else {
+                        Log.i("Contraseña","Incorrecta")
+                        _errorMessage.value = "Credenciales incorrectas"
+                    }
+                } catch (e: Exception) {
+                    _errorMessage.value = "Error de conexión: ${e.message}"
+                }
             }
         }
+    }
+
+    fun onNavigationDone() {
+        _loginSuccess.value = false
+    }
+
+    fun resetErrorMessage() {
+        _errorMessage.value = null
     }
 }

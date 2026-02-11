@@ -3,6 +3,7 @@ package com.example.librarytrackerapp.ui.components.home
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,7 +20,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreenTopBar(onFilterClick: () -> Unit) {
+fun HomeScreenTopBar(onFilterClick: () -> Unit, isLoggedIn: Boolean, onLogoutClick: () -> Unit) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -38,6 +39,15 @@ fun HomeScreenTopBar(onFilterClick: () -> Unit) {
                     contentDescription = "Open Filters",
                     tint = MaterialTheme.colorScheme.primary
                 )
+            }
+            if (isLoggedIn) {
+                IconButton(onClick = onLogoutClick) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Logout,
+                        contentDescription = "Close session",
+                        tint = MaterialTheme.colorScheme.error
+                    )
+                }
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(

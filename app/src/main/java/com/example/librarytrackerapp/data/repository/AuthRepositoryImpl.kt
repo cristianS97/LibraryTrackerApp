@@ -23,4 +23,12 @@ class AuthRepositoryImpl @Inject constructor(
             null
         }
     }
+
+    override fun isUserLoggedIn(): Boolean {
+        return !prefs.getString(NetworkConstants.TOKEN_PREF_KEY, "").isNullOrEmpty()
+    }
+
+    override fun closeSession() {
+        prefs.edit { remove(NetworkConstants.TOKEN_PREF_KEY) }
+    }
 }

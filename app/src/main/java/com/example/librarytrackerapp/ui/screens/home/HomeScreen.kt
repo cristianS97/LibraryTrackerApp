@@ -3,9 +3,11 @@ package com.example.librarytrackerapp.ui.screens.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -32,17 +34,28 @@ fun HomeScreen(
     var searchQuery by remember { mutableStateOf("") }
     var selectedAuthor by remember { mutableStateOf("") }
     val books by viewModel.books.observeAsState()
+    val isLoggedIn by viewModel.isLoggedIn.observeAsState(initial = false)
 
     val authorsList = listOf("All", "Tolkien", "Stephen King", "George R.R. Martin", "J.K. Rowling")
 
     Scaffold(
         topBar = {
-            HomeScreenTopBar(onFilterClick = { showFilterSheet = true })
+            HomeScreenTopBar(
+                isLoggedIn = isLoggedIn,
+                onLogoutClick = { viewModel.closeSession() },
+                onFilterClick = { showFilterSheet = true })
         },
-        floatingActionButton = { HomeScreenActionButton() },
-        bottomBar = { HomeScreenBottomBar(
-            navigateToLogin = navigateToLogin
-        ) },
+        floatingActionButton = {
+            if (isLoggedIn) {
+                HomeScreenActionButton()
+            }
+        },
+        bottomBar = {
+            HomeScreenBottomBar(
+                viewModel = viewModel,
+                navigateToLogin = navigateToLogin
+            )
+        },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
         Column(
