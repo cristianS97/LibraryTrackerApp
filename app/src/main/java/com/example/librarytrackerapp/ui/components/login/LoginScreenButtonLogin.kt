@@ -23,10 +23,15 @@ fun LoginScreenButtonLogin(loginViewModel: LoginViewModel, text: String) {
     val isLogin by loginViewModel.isLogin.observeAsState()
     val username by loginViewModel.username.observeAsState("")
     val password by loginViewModel.password.observeAsState("")
+    val password2 by loginViewModel.password2.observeAsState("")
     var isButtonEnabled by remember { mutableStateOf(false) }
 
     if(isLogin ?: false) {
         isButtonEnabled = username.isNotBlank() && password.isNotBlank()
+    } else {
+        val nonBlankData = username.isNotBlank() && password.isNotBlank() && password2.isNotBlank()
+        val passwordsEquals = password == password2
+        isButtonEnabled = nonBlankData && passwordsEquals
     }
 
     Button(

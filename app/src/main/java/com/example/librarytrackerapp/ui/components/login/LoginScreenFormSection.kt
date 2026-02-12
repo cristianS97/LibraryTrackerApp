@@ -21,6 +21,10 @@ import com.example.librarytrackerapp.ui.screens.login.LoginViewModel
 @Composable
 fun LoginScreenFormSection(loginViewModel: LoginViewModel) {
     val isLogin by loginViewModel.isLogin.observeAsState(initial = true)
+    val password by loginViewModel.password.observeAsState(initial = "")
+    val password2 by loginViewModel.password2.observeAsState(initial = "")
+    val showPassword by loginViewModel.showPassword.observeAsState(initial = false)
+    val showPassword2 by loginViewModel.showPassword2.observeAsState(initial = false)
 
     Row(
         modifier = Modifier
@@ -53,11 +57,29 @@ fun LoginScreenFormSection(loginViewModel: LoginViewModel) {
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
             if (targetIsLogin) {
                 LoginScreenLoginUsername(loginViewModel = loginViewModel)
-                LoginScreenLoginPassword(loginViewModel = loginViewModel)
+                LoginScreenLoginPassword(
+                    password = password,
+                    showPassword = showPassword,
+                    isLogin = isLogin,
+                    changePassword = { loginViewModel.changePassword(it) },
+                    changePasswordVisibility = { loginViewModel.changePasswordVisibility() }
+                )
             } else {
                 LoginScreenLoginUsername(loginViewModel = loginViewModel)
-                LoginScreenLoginPassword(loginViewModel = loginViewModel)
-                LoginScreenLoginPassword(loginViewModel = loginViewModel)
+                LoginScreenLoginPassword(
+                    password = password,
+                    showPassword = showPassword,
+                    isLogin = isLogin,
+                    changePassword = { loginViewModel.changePassword(it) },
+                    changePasswordVisibility = { loginViewModel.changePasswordVisibility() }
+                )
+                LoginScreenLoginPassword(
+                    password = password2,
+                    showPassword = showPassword2,
+                    isLogin = isLogin,
+                    changePassword = { loginViewModel.changePassword2(it) },
+                    changePasswordVisibility = { loginViewModel.changePassword2Visibility() }
+                )
             }
 
             Spacer(Modifier.height(8.dp))

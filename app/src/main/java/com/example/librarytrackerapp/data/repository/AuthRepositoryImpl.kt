@@ -8,19 +8,36 @@ import com.example.librarytrackerapp.domain.repository.AuthRepository
 import com.example.librarytrackerapp.util.NetworkConstants
 import javax.inject.Inject
 import androidx.core.content.edit
+import com.example.librarytrackerapp.data.mapper.toDto
+import com.example.librarytrackerapp.domain.model.Register
 
 class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService,
     private val prefs: SharedPreferences
 ) : AuthRepository {
-    override suspend fun doLogin(username: String, password: String): Login? {
-        val dto = authService.doLogin(username, password)
+    override suspend fun doLogin(username: String, password: String): Login {
+        val response = authService.doLogin(username, password)
 
-        return if(dto != null && dto.accessToken.isNotEmpty()) {
-            prefs.edit { putString(NetworkConstants.TOKEN_PREF_KEY, dto.accessToken) }
-            dto.toDomain()
-        } else {
-            null
+        return when(response.code()) {
+            200 -> {
+                val dto = response.body() ?: throw Exception("Respuesta vacía")
+                prefs.edit { putString(NetworkConstants.TOKEN_PREF_KEY, dto.accessToken) }
+                dto.toDomain()
+            }
+            400 -> throw Exception("Usuario o contraseña incorrectos")
+            422 -> throw Exception("Datos mal formados")
+            else -> throw Exception("Error inesperado: ${response.code()}")
+        }
+    }
+
+    override suspend fun doRegister(register: Register): Boolean {
+        val response = authService.doRegister(register.toDto())
+
+        return when(response.code()) {
+            201 -> true
+            409 -> throw Exception("El nombre de usuario ya existe")
+            422 -> throw Exception("Los datos enviados son incorrectos")
+            else -> throw Exception("Error inesperado: ${response.code()}")
         }
     }
 

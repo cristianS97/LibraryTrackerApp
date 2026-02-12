@@ -15,31 +15,33 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.librarytrackerapp.ui.screens.login.LoginViewModel
 
 @Composable
-fun LoginScreenLoginPassword(loginViewModel: LoginViewModel) {
-    val showPassword by loginViewModel.showPassword.observeAsState(initial = false)
-    val password by loginViewModel.password.observeAsState(initial = "")
-
+fun LoginScreenLoginPassword(
+    password: String,
+    showPassword: Boolean,
+    isLogin: Boolean,
+    changePassword: (String) -> Unit,
+    changePasswordVisibility: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = if(isLogin) Arrangement.SpaceBetween else Arrangement.Start
     ) {
         Text("Password", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 16.sp)
-        Text("Forgot?", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+        if(isLogin) {
+            Text("Forgot?", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+        }
     }
     OutlinedTextField(
         value = password,
-        onValueChange = { loginViewModel.changePassword(it) },
+        onValueChange = { changePassword(it) },
         leadingIcon = {
             Icon(
                 Icons.Default.Lock,
@@ -56,7 +58,7 @@ fun LoginScreenLoginPassword(loginViewModel: LoginViewModel) {
                 modifier = Modifier.clickable(
                     enabled = true,
                     onClick = {
-                        loginViewModel.changePasswordVisibility()
+                        changePasswordVisibility()
                     }
                 )
             )
