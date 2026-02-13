@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.example.librarytrackerapp.domain.model.Book
 
 @Composable
-fun HomeScreenBooksSection(books: List<Book>) {
+fun HomeScreenBooksSection(books: List<Book>, navigateToDetail: (Int) -> Unit) {
     Column() {
         Text(
             "RECENTLY ADDED",
@@ -24,7 +24,10 @@ fun HomeScreenBooksSection(books: List<Book>) {
         )
         LazyColumn(modifier = Modifier.weight(1f)) {
             items(books) {
-                HomeScreenBookDetail(it)
+                HomeScreenBookDetail(
+                    book = it,
+                    navigateToDetail = navigateToDetail
+                )
             }
         }
         Column(

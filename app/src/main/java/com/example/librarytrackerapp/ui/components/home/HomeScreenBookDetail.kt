@@ -1,6 +1,7 @@
 package com.example.librarytrackerapp.ui.components.home
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -28,13 +29,17 @@ import androidx.compose.ui.unit.sp
 import com.example.librarytrackerapp.domain.model.Book
 
 @Composable
-fun HomeScreenBookDetail(book: Book) {
+fun HomeScreenBookDetail(book: Book, navigateToDetail: (Int) -> Unit) {
     val randomRating = ((0..50).random() * 0.1).let { "%.2f".format(it).toDouble() }
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.4f)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface.copy(
+                alpha = 0.4f
+            )
+        ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         border = BorderStroke(1.dp, Color.White.copy(alpha = 0.05f)),
         shape = RoundedCornerShape(12.dp)
@@ -74,7 +79,13 @@ fun HomeScreenBookDetail(book: Book) {
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
-                modifier = Modifier.align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .fillMaxHeight()
+                    .clickable(
+                        enabled = true,
+                        onClick = { navigateToDetail(book.id) }
+                    )
             )
         }
     }

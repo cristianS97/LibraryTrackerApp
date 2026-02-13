@@ -8,4 +8,7 @@ sealed class Screen {
 
     @Serializable
     object Login
+
+    @Serializable
+    data class BookDetailScreen(val id: Int)
 }
