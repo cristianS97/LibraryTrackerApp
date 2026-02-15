@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.librarytrackerapp.ui.components.common.TopBarApp
 import com.example.librarytrackerapp.ui.components.login.LoginScreenFooter
 import com.example.librarytrackerapp.ui.components.login.LoginScreenFormSection
 import com.example.librarytrackerapp.ui.components.login.LoginScreenHero
@@ -58,7 +59,7 @@ fun LoginScreen(
     }
 
     Scaffold(
-        topBar = { LoginScreenTopBar(navigateToHome = navigateToHome) },
+        topBar = { TopBarApp(title = "Library Vault", navigateToHome = navigateToHome) },
         containerColor = MaterialTheme.colorScheme.background,
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) { data ->
             Snackbar(

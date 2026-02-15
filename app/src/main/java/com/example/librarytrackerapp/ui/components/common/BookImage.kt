@@ -1,4 +1,4 @@
-package com.example.librarytrackerapp.ui.components.home
+package com.example.librarytrackerapp.ui.components.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,7 +21,17 @@ import androidx.compose.ui.unit.dp
 import coil.compose.SubcomposeAsyncImage
 
 @Composable
-fun HomeScreenBookImage(image: String, title: String) {
+fun BookImage(image: String, title: String, location: String) {
+    val imageWidth = when(location) {
+        "home" -> 80.dp
+        "detail" -> 160.dp
+        else -> 0.dp
+    }
+    val imageHeight = when(location) {
+        "home" -> 120.dp
+        "detail" -> 240.dp
+        else -> 0.dp
+    }
     SubcomposeAsyncImage(
         model = image,
         contentDescription = title,
@@ -49,8 +59,8 @@ fun HomeScreenBookImage(image: String, title: String) {
         },
         contentScale = ContentScale.Crop,
         modifier = Modifier
-            .width(80.dp)
-            .height(120.dp)
+            .width(imageWidth)
+            .height(imageHeight)
             .clip(RoundedCornerShape(8.dp))
     )
 }

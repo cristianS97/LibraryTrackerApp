@@ -5,15 +5,21 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.librarytrackerapp.domain.model.Book
+import com.example.librarytrackerapp.domain.repository.AuthRepository
 import com.example.librarytrackerapp.domain.usecase.book.GetBookByIdUseCase
+import com.example.librarytrackerapp.ui.components.bookdetail.clases.BookStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BookDetailScreenViewModel @Inject constructor(
-    private val getBookByIdUseCase: GetBookByIdUseCase
+    private val getBookByIdUseCase: GetBookByIdUseCase,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
+    private val _isLoggedIn = MutableLiveData<Boolean>()
+    val isLoggedIn : LiveData<Boolean> = _isLoggedIn
+
     private val _book = MutableLiveData<Book>()
     val book: LiveData<Book> = _book
 
@@ -28,6 +34,12 @@ class BookDetailScreenViewModel @Inject constructor(
 
     private val _userRating = MutableLiveData<Int>(0)
     val userRating: LiveData<Int> = _userRating
+
+    init {
+        viewModelScope.launch {
+            checkAuthStatus()
+        }
+    }
 
     fun obtenerLibro(id: Int) {
         viewModelScope.launch {
@@ -48,5 +60,9 @@ class BookDetailScreenViewModel @Inject constructor(
 
     fun onRatingChanged(newRating: Int) {
         _userRating.value = newRating
+    }
+
+    fun checkAuthStatus() {
+        _isLoggedIn.value = authRepository.isUserLoggedIn()
     }
 }

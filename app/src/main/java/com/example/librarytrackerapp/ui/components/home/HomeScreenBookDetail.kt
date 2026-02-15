@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.librarytrackerapp.domain.model.Book
+import com.example.librarytrackerapp.ui.components.common.BookImage
 
 @Composable
 fun HomeScreenBookDetail(book: Book, navigateToDetail: (Int) -> Unit) {
@@ -50,7 +51,7 @@ fun HomeScreenBookDetail(book: Book, navigateToDetail: (Int) -> Unit) {
                 .fillMaxWidth()
                 .height(IntrinsicSize.Max) // Altura basada en el hijo más alto (la imagen)
         ) {
-            HomeScreenBookImage(book.image, book.title)
+            BookImage(book.image, book.title, "home")
             Column(
                 modifier = Modifier
                     .weight(1f)
