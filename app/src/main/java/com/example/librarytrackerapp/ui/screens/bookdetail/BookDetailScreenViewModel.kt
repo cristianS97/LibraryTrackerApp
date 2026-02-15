@@ -23,6 +23,12 @@ class BookDetailScreenViewModel @Inject constructor(
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?> = _errorMessage
 
+    private val _bookStatus = MutableLiveData<BookStatus>(BookStatus.READING)
+    val bookStatus: LiveData<BookStatus> = _bookStatus
+
+    private val _userRating = MutableLiveData<Int>(0)
+    val userRating: LiveData<Int> = _userRating
+
     fun obtenerLibro(id: Int) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -34,5 +40,13 @@ class BookDetailScreenViewModel @Inject constructor(
             }
             _isLoading.value = false
         }
+    }
+
+    fun updateStatus(newStatus: BookStatus) {
+        _bookStatus.value = newStatus
+    }
+
+    fun onRatingChanged(newRating: Int) {
+        _userRating.value = newRating
     }
 }
