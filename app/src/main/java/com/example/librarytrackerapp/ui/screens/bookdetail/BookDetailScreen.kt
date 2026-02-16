@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.librarytrackerapp.ui.components.bookdetail.BookDetailBookSection
+import com.example.librarytrackerapp.ui.components.bookdetail.BookDetailBottomBar
 import com.example.librarytrackerapp.ui.components.common.TopBarApp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +39,8 @@ fun BookDetailScreen(
     Scaffold(
         topBar = {
             TopBarApp("Book Details", navigateToHome = navigateToHome)
-        }
+        },
+        bottomBar = { if(isLoggedIn) BookDetailBottomBar() }
     ) { innerPadding ->
         Box(
             modifier = Modifier
