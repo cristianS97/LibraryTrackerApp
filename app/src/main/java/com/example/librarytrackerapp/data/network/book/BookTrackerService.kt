@@ -43,4 +43,24 @@ class BookTrackerService @Inject constructor(private val bookTrackerClient: Book
             )
         }
     }
+
+    suspend fun updateBook(
+        token: String,
+        id: Int,
+        title: RequestBody,
+        author: RequestBody,
+        description: RequestBody?,
+        file: MultipartBody.Part?
+    ): Response<BookDto> {
+        return withContext(Dispatchers.IO) {
+            bookTrackerClient.updateBook(
+                token = "Bearer $token",
+                id = id,
+                title = title,
+                author = author,
+                description = description,
+                file = file
+            )
+        }
+    }
 }

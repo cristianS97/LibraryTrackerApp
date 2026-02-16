@@ -12,4 +12,12 @@ interface BookTrackerRepository {
         description: String?,
         imageUri: android.net.Uri
     ): Result<Unit>
+    suspend fun updateBook(
+        token: String,
+        id: Int,
+        title: String,
+        author: String,
+        description: String?,
+        imageUri: android.net.Uri?
+    ): Result<Book>
 }

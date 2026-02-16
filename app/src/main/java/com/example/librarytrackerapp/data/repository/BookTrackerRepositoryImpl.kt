@@ -76,6 +76,57 @@ class BookTrackerRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun updateBook(
+        token: String,
+        id: Int,
+        title: String,
+        author: String,
+        description: String?,
+        imageUri: Uri?
+    ): Result<Book> {
+        return try {
+            val titleRB = title.toRequestBody("text/plain".toMediaTypeOrNull())
+            val authorRB = author.toRequestBody("text/plain".toMediaTypeOrNull())
+            val descriptionRB = description?.toRequestBody("text/plain".toMediaTypeOrNull())
+            var filePart: MultipartBody.Part? = null
+
+            if(imageUri != null) {
+                val originalFileName = getFileName(imageUri)
+                val inputStream = context.contentResolver.openInputStream(imageUri)
+                val bytes = inputStream?.readBytes() ?: throw Exception("No se pudo leer la imagen")
+
+                val requestFile = bytes.toRequestBody("image/*".toMediaTypeOrNull())
+                filePart = MultipartBody.Part.createFormData(
+                    name = "file",
+                    filename = originalFileName,
+                    body = requestFile
+                )
+            }
+
+            val response = bookTrackerService.updateBook(
+                token = token,
+                id = id,
+                title = titleRB,
+                author = authorRB,
+                description = descriptionRB,
+                file = filePart
+            )
+
+            when(response.code()) {
+                200 -> {
+                    val bookDto = response.body() ?: throw Exception("Cuerpo de respuesta vacío")
+                    Result.success(bookDto.toDomain())
+                }
+                401 -> throw Exception("No tiene permisos o no se ha logueado")
+                409 -> throw Exception("El libro ya se encuentra registrado")
+                422 -> throw Exception("Datos mal formateados")
+                else -> throw Exception("Error inesperado: ${response.code()}")
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
     private fun getFileName(uri: Uri): String {
         var name = "book_image.jpg" // Nombre por defecto con extensión por si falla
         val cursor = context.contentResolver.query(uri, null, null, null, null)
