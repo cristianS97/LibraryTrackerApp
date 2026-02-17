@@ -9,11 +9,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 
 @Composable
-fun HomeScreenActionButton() {
+fun HomeScreenActionButton(navigateToCreate: () -> Unit) {
     FloatingActionButton(
         containerColor = MaterialTheme.colorScheme.primary,
         shape = CircleShape,
-        onClick = {}
+        onClick = { navigateToCreate() }
     ) {
         Icon(
             Icons.Default.Add,

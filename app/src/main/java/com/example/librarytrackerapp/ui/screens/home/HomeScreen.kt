@@ -27,7 +27,8 @@ import com.example.librarytrackerapp.ui.components.home.HomeScreenTopBar
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
     navigateToLogin: () -> Unit,
-    navigateToDetail: (Int) -> Unit
+    navigateToDetail: (Int) -> Unit,
+    navigateToCreate: () -> Unit
 ) {
     var showFilterSheet by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
@@ -46,7 +47,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             if (isLoggedIn) {
-                HomeScreenActionButton()
+                HomeScreenActionButton(navigateToCreate = navigateToCreate)
             }
         },
         bottomBar = {

@@ -46,8 +46,10 @@ class ProviderModule {
 
     @Singleton
     @Provides
-    fun providesBookTrackerRepository(bookTrackerService: BookTrackerService): BookTrackerRepository {
-        return BookTrackerRepositoryImpl(bookTrackerService)
+    fun providesBookTrackerRepository(
+        bookTrackerService: BookTrackerService, @ApplicationContext context: Context): BookTrackerRepository {
+        // Ahora pasas el contexto al constructor
+        return BookTrackerRepositoryImpl(bookTrackerService, context)
     }
 
     @Singleton

@@ -11,4 +11,7 @@ sealed class Screen {
 
     @Serializable
     data class BookDetailScreen(val id: Int)
+
+    @Serializable
+    object CreateBook
 }
