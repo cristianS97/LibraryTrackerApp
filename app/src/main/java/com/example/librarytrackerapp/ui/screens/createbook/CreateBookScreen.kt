@@ -10,10 +10,9 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.librarytrackerapp.ui.components.createedit.CreateBookScreenTextInput
+import com.example.librarytrackerapp.ui.components.common.CustomTextField
 import com.example.librarytrackerapp.ui.components.createedit.CreateEditBookBottomBar
 import com.example.librarytrackerapp.ui.components.createedit.CreateEditBookImagePicker
-import com.example.librarytrackerapp.ui.components.createedit.CreateEditBookScreenDescriptionInput
 import com.example.librarytrackerapp.ui.components.createedit.CreateEditBookTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,18 +39,24 @@ fun CreateBookScreen(
                 imageUri = imageUri,
                 onImageChange = { createBookViewModel.imageUriChange(it) }
             )
-            CreateBookScreenTextInput(
+            CustomTextField(
                 label = "Book Name",
-                text = bookname,
-                onTextChange = { createBookViewModel.bookNameChange(it) }
+                value = bookname,
+                onValueChange = { createBookViewModel.bookNameChange(it) }
             )
-            CreateBookScreenTextInput(
+            CustomTextField(
                 label = "Author",
-                text = author,
-                onTextChange = { createBookViewModel.authorChange(it) })
-            CreateEditBookScreenDescriptionInput(
-                description = description,
-                descriptionChange = { createBookViewModel.descriptionChange(it) })
+                value = author,
+                onValueChange = { createBookViewModel.authorChange(it) }
+            )
+            CustomTextField(
+                label = "Description",
+                value = description,
+                onValueChange = { createBookViewModel.descriptionChange(it) },
+                placeholder = "Write a brief synopsis or your thoughts on the book...",
+                minLines = 3,
+                maxLines = 10
+            )
         }
     }
 }
