@@ -2,6 +2,7 @@ package com.example.librarytrackerapp.data.repository
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.example.librarytrackerapp.data.mapper.toDomain
 import com.example.librarytrackerapp.data.network.book.BookTrackerService
 import com.example.librarytrackerapp.domain.model.Book
@@ -40,22 +41,30 @@ class BookTrackerRepositoryImpl @Inject constructor(
         description: String?,
         imageUri: Uri
     ): Result<Unit> {
+        Log.i("createBook", "Inicio")
         return try {
-            val titleRB = title.toRequestBody("text/plain".toMediaTypeOrNull())
-            val authorRB = author.toRequestBody("text/plain".toMediaTypeOrNull())
-            val descriptionRB = description?.toRequestBody("text/plain".toMediaTypeOrNull())
+            Log.i("createBook", "Try")
+            // Usar MultipartBody.FORM suele ser más compatible con backends
+            val titleRB = title.toRequestBody(MultipartBody.FORM)
+            val authorRB = author.toRequestBody(MultipartBody.FORM)
+            // Si es null, enviamos cadena vacía para evitar que la parte sea null
+            val descriptionRB = (description ?: "").toRequestBody(MultipartBody.FORM)
 
             val originalFileName = getFileName(imageUri)
-
             val inputStream = context.contentResolver.openInputStream(imageUri)
             val bytes = inputStream?.readBytes() ?: throw Exception("No se pudo leer la imagen")
 
-            val requestFile = bytes.toRequestBody("image/*".toMediaTypeOrNull())
+            val mimeType = context.contentResolver.getType(imageUri) ?: "image/jpeg"
+
+            // Especificar un MediaType más genérico para la imagen
+            val requestFile = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
+
             val filePart = MultipartBody.Part.createFormData(
                 name = "file",
                 filename = originalFileName,
                 body = requestFile
             )
+
             val response = bookTrackerService.createBook(
                 token = token,
                 title = titleRB,
@@ -64,15 +73,15 @@ class BookTrackerRepositoryImpl @Inject constructor(
                 file = filePart
             )
 
-            when(response.code()) {
-                201 -> Result.success(Unit)
-                401 -> throw Exception("No tiene permisos o no se ha logueado")
-                409 -> throw Exception("El libro ya se encuentra registrado")
-                422 -> throw Exception("Datos mal formateados")
-                else -> throw Exception("Error inesperado: ${response.code()}")
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                // Esto te dirá en consola exactamente qué dice el servidor sobre el error 400
+                val errorBody = response.errorBody()?.string()
+                Result.failure(Exception("Error ${response.code()}: $errorBody"))
             }
         } catch(e: Exception) {
-            throw e
+            Result.failure(e)
         }
     }
 

@@ -48,4 +48,8 @@ class AuthRepositoryImpl @Inject constructor(
     override fun closeSession() {
         prefs.edit { remove(NetworkConstants.TOKEN_PREF_KEY) }
     }
+
+    override fun getToken(): String? {
+        return prefs.getString(NetworkConstants.TOKEN_PREF_KEY, null)
+    }
 }

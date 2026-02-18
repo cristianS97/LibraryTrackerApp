@@ -8,4 +8,5 @@ interface AuthRepository {
     fun isUserLoggedIn() : Boolean
     fun closeSession()
     suspend fun doRegister(register: Register): Boolean
+    fun getToken(): String?
 }

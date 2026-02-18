@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CreateEditBookBottomBar() {
+fun CreateEditBookBottomBar(isButtonEnabled: Boolean, onClickButton: () -> Unit) {
     BottomAppBar(
         modifier = Modifier.fillMaxWidth(),
         containerColor = MaterialTheme.colorScheme.background,
@@ -28,7 +28,8 @@ fun CreateEditBookBottomBar() {
                 modifier = Modifier
                     .fillMaxWidth(0.9f)
                     .padding(horizontal = 16.dp),
-                onClick = {}
+                enabled = isButtonEnabled,
+                onClick = { onClickButton() }
             ) {
                 Text("Save changes", textAlign = TextAlign.Center, fontSize = 24.sp)
             }

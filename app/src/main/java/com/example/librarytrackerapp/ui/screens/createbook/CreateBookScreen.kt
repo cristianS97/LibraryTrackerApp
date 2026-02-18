@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -25,10 +26,23 @@ fun CreateBookScreen(
     val author by createBookViewModel.author.observeAsState(initial = "")
     val description by createBookViewModel.description.observeAsState(initial = "")
     val imageUri by createBookViewModel.imageUri.observeAsState(initial = null)
+    val isSuccess by createBookViewModel.isSuccess.observeAsState(initial = false)
+
+    val isButtonEnabled = bookname.isNotEmpty() && author.isNotEmpty() && imageUri != null
+
+    LaunchedEffect(isSuccess) {
+        if (isSuccess) {
+            navigateToHome()
+            createBookViewModel.resetSuccess()
+        }
+    }
 
     Scaffold(
         topBar = { CreateEditBookTopBar(title = "Create Book", navigateToHome = navigateToHome) },
-        bottomBar = { CreateEditBookBottomBar() }
+        bottomBar = { CreateEditBookBottomBar(
+            isButtonEnabled = isButtonEnabled,
+            onClickButton = { createBookViewModel.createBook() }
+        ) }
     ) { innerPadding ->
         Column(
             Modifier
