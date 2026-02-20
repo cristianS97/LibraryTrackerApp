@@ -104,7 +104,9 @@ class BookTrackerRepositoryImpl @Inject constructor(
                 val inputStream = context.contentResolver.openInputStream(imageUri)
                 val bytes = inputStream?.readBytes() ?: throw Exception("No se pudo leer la imagen")
 
-                val requestFile = bytes.toRequestBody("image/*".toMediaTypeOrNull())
+                val mimeType = context.contentResolver.getType(imageUri) ?: "image/jpeg"
+
+                val requestFile = bytes.toRequestBody(mimeType.toMediaTypeOrNull())
                 filePart = MultipartBody.Part.createFormData(
                     name = "file",
                     filename = originalFileName,

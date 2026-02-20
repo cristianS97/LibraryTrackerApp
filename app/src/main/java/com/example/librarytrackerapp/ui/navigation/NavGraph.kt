@@ -92,8 +92,8 @@ fun NavGraph(navController: NavHostController) {
             val data = navBackStackEntry.toRoute<Screen.BookEditScreen>()
             EditBookScreen(
                 id = data.id,
-                navigateToHome = {
-                    navController.navigate(Screen.Home)
+                navigateToBookDetail = {
+                    navController.navigate(Screen.BookDetailScreen(it))
                 }
             )
         }
