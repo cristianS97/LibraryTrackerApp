@@ -3,6 +3,8 @@ package com.example.librarytrackerapp.ui.screens.home
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -15,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.librarytrackerapp.ui.components.home.HomeScreenActionButton
+import com.example.librarytrackerapp.ui.components.common.FAB
 import com.example.librarytrackerapp.ui.components.home.HomeScreenAuthorsModalSheet
 import com.example.librarytrackerapp.ui.components.home.HomeScreenBooksSection
 import com.example.librarytrackerapp.ui.components.home.HomeScreenBottomBar
@@ -47,7 +49,7 @@ fun HomeScreen(
         },
         floatingActionButton = {
             if (isLoggedIn) {
-                HomeScreenActionButton(navigateToCreate = navigateToCreate)
+                FAB(text = "", icon = Icons.Default.Add) { navigateToCreate() }
             }
         },
         bottomBar = {

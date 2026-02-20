@@ -3,8 +3,14 @@ package com.example.librarytrackerapp.ui.screens.bookdetail
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.librarytrackerapp.ui.components.bookdetail.BookDetailBookSection
-import com.example.librarytrackerapp.ui.components.bookdetail.BookDetailBottomBar
+import com.example.librarytrackerapp.ui.components.common.FAB
 import com.example.librarytrackerapp.ui.components.common.TopBarApp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -24,6 +30,7 @@ import com.example.librarytrackerapp.ui.components.common.TopBarApp
 fun BookDetailScreen(
     id: Int,
     navigateToHome: () -> Unit,
+    navigateToEdit: (id: Int) -> Unit,
     viewModel: BookDetailScreenViewModel = hiltViewModel()
 ) {
     LaunchedEffect(id) {
@@ -40,7 +47,15 @@ fun BookDetailScreen(
         topBar = {
             TopBarApp("Book Details", navigateToHome = navigateToHome)
         },
-        bottomBar = { if(isLoggedIn) BookDetailBottomBar() }
+        floatingActionButton = {
+            if (isLoggedIn && book != null) {
+                FAB(
+                    text = "Editar Libro",
+                    icon = Icons.Default.Edit,
+                    onClick = { navigateToEdit(id) }
+                )
+            }
+        }
     ) { innerPadding ->
         Box(
             modifier = Modifier

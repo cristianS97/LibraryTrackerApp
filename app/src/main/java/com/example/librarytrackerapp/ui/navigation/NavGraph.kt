@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.example.librarytrackerapp.ui.screens.bookdetail.BookDetailScreen
 import com.example.librarytrackerapp.ui.screens.createbook.CreateBookScreen
+import com.example.librarytrackerapp.ui.screens.editbook.EditBookScreen
 import com.example.librarytrackerapp.ui.screens.home.HomeScreen
 import com.example.librarytrackerapp.ui.screens.login.LoginScreen
 
@@ -74,11 +75,23 @@ fun NavGraph(navController: NavHostController) {
                 id = data.id,
                 navigateToHome = {
                     navController.navigate(Screen.Home)
+                },
+                navigateToEdit = { id ->
+                    navController.navigate(Screen.BookEditScreen(id))
                 }
             )
         }
         composable<Screen.CreateBook> {
             CreateBookScreen(
+                navigateToHome = {
+                    navController.navigate(Screen.Home)
+                }
+            )
+        }
+        composable<Screen.BookEditScreen> { navBackStackEntry ->
+            val data = navBackStackEntry.toRoute<Screen.BookEditScreen>()
+            EditBookScreen(
+                id = data.id,
                 navigateToHome = {
                     navController.navigate(Screen.Home)
                 }
