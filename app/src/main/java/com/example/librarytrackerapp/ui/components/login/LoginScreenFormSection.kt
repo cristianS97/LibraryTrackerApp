@@ -140,7 +140,7 @@ fun LoginScreenFormSection(loginViewModel: LoginViewModel) {
                         }
                     },
                     trailingIcon = {
-                        IconButton(onClick = { loginViewModel.changePasswordVisibility() } ) {
+                        IconButton(onClick = { loginViewModel.changePassword2Visibility() } ) {
                             Icon(if(showPassword2) Icons.Default.VisibilityOff else Icons.Default.Visibility, contentDescription = null)
                         }
                     }

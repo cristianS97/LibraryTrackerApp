@@ -28,7 +28,6 @@ import com.example.librarytrackerapp.ui.components.login.LoginScreenFooter
 import com.example.librarytrackerapp.ui.components.login.LoginScreenFormSection
 import com.example.librarytrackerapp.ui.components.login.LoginScreenHero
 import com.example.librarytrackerapp.ui.components.login.LoginScreenSocials
-import com.example.librarytrackerapp.ui.components.login.LoginScreenTopBar
 
 @Composable
 fun LoginScreen(

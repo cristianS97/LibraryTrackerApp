@@ -1,6 +1,5 @@
 package com.example.librarytrackerapp.ui.screens.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,10 +81,8 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val result = doLoginUseCase(_username.value ?: "", _password.value ?: "")
             result.onSuccess { login ->
-                Log.i("Login", "Éxito: ${login.accessToken}")
                 _loginSuccess.value = true
             }.onFailure { exception ->
-                Log.e("Login", "Error: ${exception.message}")
                 _errorMessage.value = exception.message ?: "Error al iniciar sesión"
             }
         }

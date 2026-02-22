@@ -63,4 +63,10 @@ class BookTrackerService @Inject constructor(private val bookTrackerClient: Book
             )
         }
     }
+
+    suspend fun deleteBook(token: String, id: Int): Response<Unit> {
+        return withContext(Dispatchers.IO) {
+            bookTrackerClient.deleteBook("Bearer $token", id)
+        }
+    }
 }

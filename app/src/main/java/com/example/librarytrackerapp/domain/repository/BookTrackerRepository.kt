@@ -20,4 +20,5 @@ interface BookTrackerRepository {
         description: String?,
         imageUri: android.net.Uri?
     ): Result<Book>
+    suspend fun deleteBook(token: String, id: Int): Result<Unit>
 }

@@ -2,7 +2,6 @@ package com.example.librarytrackerapp.data.repository
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import com.example.librarytrackerapp.data.mapper.toDomain
 import com.example.librarytrackerapp.data.network.book.BookTrackerService
 import com.example.librarytrackerapp.domain.model.Book
@@ -41,9 +40,7 @@ class BookTrackerRepositoryImpl @Inject constructor(
         description: String?,
         imageUri: Uri
     ): Result<Unit> {
-        Log.i("createBook", "Inicio")
         return try {
-            Log.i("createBook", "Try")
             // Usar MultipartBody.FORM suele ser más compatible con backends
             val titleRB = title.toRequestBody(MultipartBody.FORM)
             val authorRB = author.toRequestBody(MultipartBody.FORM)
@@ -135,6 +132,18 @@ class BookTrackerRepositoryImpl @Inject constructor(
             }
         } catch (e: Exception) {
             Result.failure(e)
+        }
+    }
+
+    override suspend fun deleteBook(token: String, id: Int): Result<Unit> {
+        val response = bookTrackerService.deleteBook(token, id)
+        return when(response.code()) {
+            204 -> Result.success(Unit)
+            401 -> throw Exception("No se ha logeado")
+            403 -> throw Exception("No cuenta con permisos")
+            404 -> throw Exception("El libro no ha sido encontrado")
+            422 -> throw Exception("Datos mal formateados")
+            else -> throw Exception("Error inesperado: ${response.code()}")
         }
     }
 
