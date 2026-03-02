@@ -23,7 +23,7 @@ fun EditBookScreen(
     navigateToBookDetail: (Int) -> Unit,
     viewModel: EditBookScreenViewModel = hiltViewModel()
 ) {
-    val book by viewModel.book.observeAsState(initial = Book(id = 0, title = "", author = "", image = "", description = ""))
+    val book by viewModel.book.observeAsState(initial = Book(id = 0, title = "", author = "", image = "", description = "", rating = 0.0))
     val isSuccess by viewModel.isSuccess.observeAsState(initial =  false)
 
     LaunchedEffect(id) {

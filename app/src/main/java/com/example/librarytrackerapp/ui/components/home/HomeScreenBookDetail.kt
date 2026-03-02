@@ -74,7 +74,7 @@ fun HomeScreenBookDetail(book: Book, navigateToDetail: (Int) -> Unit) {
                     maxLines = 1
                 )
                 Spacer(modifier = Modifier.weight(1f))
-                HomeScreenBookRatingBar(rating = randomRating)
+                HomeScreenBookRatingBar(rating = book.rating)
             }
             Icon(
                 imageVector = Icons.Default.KeyboardArrowRight,

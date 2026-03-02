@@ -16,5 +16,8 @@ data class BookDto(
     val description: String,
 
     @SerializedName("image")
-    val image: String
+    val image: String,
+
+    @SerializedName("average_rating")
+    val rating: Double
 )

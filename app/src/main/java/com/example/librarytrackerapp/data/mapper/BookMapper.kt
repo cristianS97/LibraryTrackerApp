@@ -10,7 +10,8 @@ fun BookDto.toDomain() : Book {
         title = this.title,
         author = this.author,
         description = this.description,
-        image = "${NetworkConstants.BASE_URL}${this.image}"
+        image = "${NetworkConstants.BASE_URL}${this.image}",
+        rating = this.rating
     )
 }
 
@@ -20,6 +21,7 @@ fun Book.toDto(): BookDto {
         title = this.title,
         author = this.author,
         description = this.description,
-        image = this.image.replace(NetworkConstants.BASE_URL, "")
+        image = this.image.replace(NetworkConstants.BASE_URL, ""),
+        rating = this.rating
     )
 }
