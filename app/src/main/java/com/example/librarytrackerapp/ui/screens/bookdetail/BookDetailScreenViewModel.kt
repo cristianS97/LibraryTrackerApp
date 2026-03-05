@@ -59,7 +59,7 @@ class BookDetailScreenViewModel @Inject constructor(
     fun obtenerLibro(id: Int) {
         viewModelScope.launch {
             _isLoading.value = true
-            val response = getBookByIdUseCase(id)
+            val response = getBookByIdUseCase(authRepository.getToken(), id)
             response.onSuccess { bookResult ->
                 _book.value = bookResult
             }.onFailure { exception ->
@@ -83,7 +83,7 @@ class BookDetailScreenViewModel @Inject constructor(
     }
 
     fun onRatingChanged(newRating: Int) {
-        _userRating.value = newRating
+        _book.value = _book.value?.copy(userRating = newRating)
     }
 
     fun checkAuthStatus() {

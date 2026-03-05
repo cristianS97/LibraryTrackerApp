@@ -19,5 +19,8 @@ data class BookDto(
     val image: String,
 
     @SerializedName("average_rating")
-    val rating: Double
+    val rating: Double?,
+
+    @SerializedName("user_rating")
+    val userRating: Int?
 )

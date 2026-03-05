@@ -27,7 +27,6 @@ import com.example.librarytrackerapp.ui.screens.bookdetail.BookDetailScreenViewM
 @Composable
 fun BookDetailBookSection(
     book: Book,
-    rating: Double,
     viewModel: BookDetailScreenViewModel,
     isLoggedIn: Boolean
 ) {
@@ -55,7 +54,7 @@ fun BookDetailBookSection(
             fontSize = 18.sp,
             modifier = Modifier.padding(bottom = 8.dp)
         )
-        HomeScreenBookRatingBar(rating)
+        HomeScreenBookRatingBar(book.rating ?: 0.0)
         if(isLoggedIn) {
             BookDetailStatusSelector(
                 selectedStatus = currentStatus,
@@ -64,7 +63,7 @@ fun BookDetailBookSection(
                 }
             )
             BookDetailRatingSection(
-                rating = currentRating,
+                rating = book.userRating ?: 0,
                 onRatingChange = { newRating ->
                     viewModel.onRatingChanged(newRating)
                 }

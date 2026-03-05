@@ -17,7 +17,10 @@ interface BookTrackerClient {
     suspend fun getBooks(): Response<List<BookDto>>
 
     @GET("book/{id}/")
-    suspend fun getBook(@Path("id") id: Int): Response<BookDto>
+    suspend fun getBook(
+        @Header("Authorization") token: String?,
+        @Path("id") id: Int
+    ): Response<BookDto>
 
     @Multipart
     @POST("book/")

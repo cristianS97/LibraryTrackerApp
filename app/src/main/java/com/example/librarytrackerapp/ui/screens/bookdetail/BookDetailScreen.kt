@@ -40,7 +40,6 @@ fun BookDetailScreen(
     val errorMessage by viewModel.errorMessage.observeAsState()
     val isMenuExpanded by viewModel.isMenuExpanded.observeAsState(initial = false)
     val showDeleteDialog by viewModel.showDeleteDialog.observeAsState(initial = false)
-    val randomRating = ((0..50).random() * 0.1).let { "%.2f".format(it).toDouble() }
 
 
     LaunchedEffect(deleteSuccess) {
@@ -84,7 +83,6 @@ fun BookDetailScreen(
                 book != null -> {
                     BookDetailBookSection(
                         book = book!!,
-                        rating = randomRating,
                         isLoggedIn = isLoggedIn,
                         viewModel = viewModel
                     )

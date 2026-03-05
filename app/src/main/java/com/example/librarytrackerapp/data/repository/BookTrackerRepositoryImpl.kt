@@ -2,6 +2,7 @@ package com.example.librarytrackerapp.data.repository
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import com.example.librarytrackerapp.data.mapper.toDomain
 import com.example.librarytrackerapp.data.network.book.BookTrackerService
 import com.example.librarytrackerapp.domain.model.Book
@@ -20,8 +21,8 @@ class BookTrackerRepositoryImpl @Inject constructor(
         return bookTrackerService.getBooks().map { it.toDomain() }
     }
 
-    override suspend fun getBook(id: Int): Book {
-        val response = bookTrackerService.getBook(id)
+    override suspend fun getBook(token: String?, id: Int): Book {
+        val response = bookTrackerService.getBook(token, id)
 
         return when(response.code()) {
             200 -> {

@@ -4,7 +4,7 @@ import com.example.librarytrackerapp.domain.model.Book
 
 interface BookTrackerRepository {
     suspend fun getBooks(): List<Book>
-    suspend fun getBook(id: Int): Book
+    suspend fun getBook(token: String?, id: Int): Book
     suspend fun createBook(
         token: String,
         title: String,

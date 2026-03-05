@@ -20,9 +20,9 @@ class BookTrackerService @Inject constructor(private val bookTrackerClient: Book
         }
     }
 
-    suspend fun getBook(id: Int): Response<BookDto> {
+    suspend fun getBook(token: String?, id: Int): Response<BookDto> {
         return withContext(Dispatchers.IO) {
-            bookTrackerClient.getBook(id)
+            bookTrackerClient.getBook("Bearer $token", id)
         }
     }
 
